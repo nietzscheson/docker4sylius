@@ -1,0 +1,20 @@
+language: bash
+
+sudo: false
+
+services:
+  - docker
+  - git
+
+install:
+  - sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - docker-compose --version
+
+script:
+  - git clone https://github.com/Sylius/Sylius-Standard.git sylius
+  - docker-compose up --build -d
+  - docker-compose run --rm php composer install
+  - docker-compose run --rm php bin/console sylius:install
+  - docker-compose run --rm node yarn install
+  - docker-compose run --rm node yarn build
