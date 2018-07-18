@@ -1,0 +1,95 @@
+version: '3.5'
+
+services:
+  php:
+    #image: exozet/php-fpm:7.2.0
+    build: ${PWD}/.docker/php
+    volumes: 
+      - sylius:/var/www/html
+    #user: 1000:1000
+    #user: "${UID-www-data}:${GID-www-data}"
+    environment:
+      - SYLIUS_DATABASE_HOST=db
+      - SYLIUS_DATABASE_NAME=${MYSQL_DATABASE}
+      - SYLIUS_DATABASE_USER=${MYSQL_USER}
+      - SYLIUS_DATABASE_PASSWORD=${MYSQL_PASSWORD}
+      - SYLIUS_APP_DEV_PERMITTED=true
+      - PHP_DATE_TIMEZONE=UTC
+    networks:
+      - sylius
+    working_dir: /var/www/html
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ${PWD}/.docker/nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
+      - ${PWD}/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - sylius:/var/www/html
+    labels:
+      - "traefik.frontend.rule=Host:192.168.99.100"
+      - "traefik.backend=nginx"
+    networks:
+      - sylius
+
+  traefik:
+    image: traefik # The official Traefik docker image
+    command: --api --docker
+    ports:
+      - "8080:8080" # The Web UI (enabled by --api)
+      - "80:80" # The HTTP port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - sylius
+
+  db:
+    image: mariadb:10.2
+    stop_grace_period: 30s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${MYSQL_DATABASE}_dev
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_USER_HOST: '%%'
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ${PWD}/var/lib/mariadb/10.2:/var/lib/mysql # I want to manage volumes manually.
+    user: mysql
+    networks:
+      - sylius
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=${MYSQL_USER}
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+    restart: always
+    labels:
+      - 'traefik.backend=pma'
+      - 'traefik.port=80'
+    ports:
+      - 81:80
+    networks:
+      - sylius
+
+  node:
+    image: node:8
+    environment:
+      YARN_CACHE_FOLDER: '/home/node/.yarn-cache'
+    user: node
+    volumes:
+      - sylius:/var/www/html
+      - ${PWD}/var/cache/yarn:/home/node/.yarn-cache
+    working_dir: /var/www/html
+
+volumes:
+  sylius:
+    driver_opts:
+      type: none
+      device: $PWD/sylius
+      o: bind
+
+networks:
+  sylius: ~
