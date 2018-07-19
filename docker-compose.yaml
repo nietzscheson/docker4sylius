@@ -2,12 +2,9 @@ version: '3.5'
 
 services:
   php:
-    #image: exozet/php-fpm:7.2.0
     build: ${PWD}/.docker/php
     volumes: 
       - sylius:/var/www/html
-    #user: 1000:1000
-    #user: "${UID-www-data}:${GID-www-data}"
     environment:
       - SYLIUS_DATABASE_HOST=db
       - SYLIUS_DATABASE_NAME=${MYSQL_DATABASE}
@@ -81,7 +78,6 @@ services:
     user: node
     volumes:
       - sylius:/var/www/html
-      - ${PWD}/var/cache/yarn:/home/node/.yarn-cache
     working_dir: /var/www/html
 
 volumes:
