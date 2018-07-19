@@ -64,21 +64,21 @@ phpmyadmin                /run.sh supervisord -n          Up       0.0.0.0:81->8
 
 Inside the standard Sylius modify the behat.yml.dist adding the following:
 
-    ```yaml
-    default:
-        extensions:
-            Behat\MinkExtension:
-                base_url: "http://nginx/app_test.php"
-                sessions:
+```yml
+default:
+    extensions:
+        Behat\MinkExtension:
+            base_url: "http://nginx/app_test.php"
+            sessions:
+                selenium2:
                     selenium2:
-                        selenium2:
-                            wd_host: http://selenium:4444/wd/hub
-    ```
+                        wd_host: http://selenium:4444/wd/hub
+```
 And run Behat:
 
-    ```bash
-        $ docker-compose run --rm php bin/behat
-    ```
+```bash
+    $ docker-compose run --rm php bin/behat
+```
 ## License
 
 This bundle is published under the [MIT License](LICENSE)
