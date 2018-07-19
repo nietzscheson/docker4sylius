@@ -2,9 +2,10 @@
     <img src="d4s.png" />
 </p>
 
-<h1 align="center">Docker environment for [Sylius](https://sylius.com/) Project</h1>
 
-<p align="center">For more information on how Sylius works, please read all the [documentation](http://docs.sylius.com)</p>
+## Docker environment for [Sylius](https://sylius.com/) Project</h1>
+
+For more information on how Sylius works, please read all the [documentation](http://docs.sylius.com)
 
 ## Installation
 
