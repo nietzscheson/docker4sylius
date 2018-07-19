@@ -80,6 +80,14 @@ services:
       - sylius:/var/www/html
     working_dir: /var/www/html
 
+  se:
+    hostname: selenium
+    image: selenium/standalone-chrome
+    ports:
+      - 4444:4444
+    networks:
+      - sylius
+
 volumes:
   sylius:
     driver_opts:
