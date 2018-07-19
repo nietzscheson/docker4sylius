@@ -75,7 +75,7 @@ services:
     image: node:8
     environment:
       YARN_CACHE_FOLDER: '/home/node/.yarn-cache'
-    user: node
+    user: root
     volumes:
       - sylius:/var/www/html
     working_dir: /var/www/html

@@ -13,7 +13,7 @@ install:
 
 script:
   - git clone https://github.com/Sylius/Sylius-Standard.git sylius
-  - docker-compose up --build -d
+  - docker-compose -f docker-compose.yaml -f travis.yaml up --build -d
   - docker-compose run --rm php composer install --prefer-dist -n
   - docker-compose run --rm php bin/console sylius:install -n
   - docker-compose run --rm node yarn install
