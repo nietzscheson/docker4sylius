@@ -52,6 +52,7 @@ docker4sylius_se_1        /opt/bin/entry_point.sh         Up       0.0.0.0:4444-
 docker4sylius_traefik_1   /traefik --api --docker         Up       0.0.0.0:80->80/tcp, 0.0.0.0:8080->8080/tcp
 phpmyadmin                /run.sh supervisord -n          Up       0.0.0.0:81->80/tcp, 9000/tcp
 -----------
+```
 
 ## Testing
 
@@ -72,3 +73,8 @@ default:
 
 This bundle is published under the [MIT License](LICENSE)
 
+## Contributing
+
+First of all, **thank you** for contributing ♥  
+If you find any typo/misconfiguration/... please send me a PR or open an issue. You can also ping me on [twitter](https://twitter.com/nietzscheson).  
+Also, while creating your Pull Request on GitHub, please write a description which gives the context and/or explains why you are creating it.
