@@ -21,19 +21,25 @@ For more information on how Sylius works, please read all the [documentation](ht
     $ git clone git@github.com:Sylius/Sylius-Standard.git sylius
     ```
 
-3. Install Sylius vendors
+3. Run Docker's containers
+
+   ```bash
+   $ docker-compose up --build -d
+   ```
+
+4. Install Sylius vendors
 
     ```bash
     $ docker-compose run --rm php composer install
     ```
 
-4. Install Sylius
+5. Install Sylius
 
     ```bash
     $ docker-compose run --rm php bin/console sylius:install
     ```
 
-5. Install and build assets vendors
+6. Install and build assets vendors
 
     ```bash
     $ docker-compose run --rm node yarn install
