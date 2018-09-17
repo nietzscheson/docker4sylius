@@ -15,8 +15,6 @@ services:
       - SYLIUS_APP_DEV_PERMITTED=true
       - PHP_DATE_TIMEZONE=UTC
       - PHP_MEMORY_LIMIT=3G
-    networks:
-      - sylius
     working_dir: /var/www/html
   
   nginx:
@@ -28,8 +26,6 @@ services:
     labels:
       - "traefik.frontend.rule=Host:${HOST}"
       - "traefik.backend=nginx"
-    networks:
-      - sylius
 
   traefik:
     image: traefik # The official Traefik docker image
@@ -39,8 +35,6 @@ services:
       - "80:80" # The HTTP port
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - sylius
 
   db:
     image: mariadb:10.2
@@ -54,8 +48,6 @@ services:
     volumes:
       - ${PWD}/var/lib/mariadb/10.2:/var/lib/mysql # I want to manage volumes manually.
     user: mysql
-    networks:
-      - sylius
 
   pma:
     image: phpmyadmin/phpmyadmin
@@ -70,8 +62,6 @@ services:
       - 'traefik.frontend.rule=Host:pma.${HOST}'
       - 'traefik.backend=pma'
       - 'traefik.port=80'
-    networks:
-      - sylius
 
   node:
     image: node:8
@@ -87,8 +77,6 @@ services:
     image: selenium/standalone-chrome
     ports:
       - 4444:4444
-    networks:
-      - sylius
 
 volumes:
   sylius:
@@ -97,5 +85,3 @@ volumes:
       device: $PWD/sylius
       o: bind
 
-networks:
-  sylius: ~
