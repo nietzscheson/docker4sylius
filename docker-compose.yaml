@@ -12,6 +12,7 @@ services:
       - SYLIUS_DATABASE_PASSWORD=${MYSQL_PASSWORD}
       - SYLIUS_APP_DEV_PERMITTED=true
       - PHP_DATE_TIMEZONE=UTC
+      - PHP_MEMORY_LIMIT=3G
     networks:
       - sylius
     working_dir: /var/www/html
