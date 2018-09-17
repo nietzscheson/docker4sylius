@@ -5,6 +5,9 @@
 
 ## Docker environment for [Sylius](https://sylius.com/) Project</h1>
 
+[![Build Status](https://travis-ci.org/nietzscheson/docker4sylius.svg?branch=master)](https://travis-ci.org/nietzscheson/docker4sylius)
+[![Build Status](https://travis-ci.org/nietzscheson/docker4sylius.svg?branch=develop)](https://travis-ci.org/nietzscheson/docker4sylius)
+
 For more information on how Sylius works, please read all the [documentation](http://docs.sylius.com)
 
 ## Installation
