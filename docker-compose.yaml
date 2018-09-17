@@ -4,7 +4,9 @@ services:
   php:
     build: ${PWD}/.docker/php
     volumes: 
-      - sylius:/var/www/html
+      - sylius:/var/www/html:rw,cached
+      # If you develop on Linux
+      # - ./api/var:/srv/api/var:rw
     environment:
       - SYLIUS_DATABASE_HOST=db
       - SYLIUS_DATABASE_NAME=${MYSQL_DATABASE}
@@ -22,7 +24,7 @@ services:
     volumes:
       - ${PWD}/.docker/nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
       - ${PWD}/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - sylius:/var/www/html
+      - sylius:/var/www/html:ro
     labels:
       - "traefik.frontend.rule=Host:${HOST}"
       - "traefik.backend=nginx"
@@ -65,10 +67,9 @@ services:
       - PMA_PASSWORD=${MYSQL_PASSWORD}
     restart: always
     labels:
+      - 'traefik.frontend.rule=Host:pma.${HOST}'
       - 'traefik.backend=pma'
       - 'traefik.port=80'
-    ports:
-      - 81:80
     networks:
       - sylius
 
