@@ -82,6 +82,6 @@ volumes:
   sylius:
     driver_opts:
       type: none
-      device: $PWD/sylius
+      device: $PWD/$SYLIUS_PATH
       o: bind
 
