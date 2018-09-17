@@ -18,7 +18,7 @@ services:
     working_dir: /var/www/html
   
   nginx:
-    image: nginx:latest
+    image: nginx:1.15.3
     volumes:
       - ${PWD}/.docker/nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
       - ${PWD}/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -28,7 +28,7 @@ services:
       - "traefik.backend=nginx"
 
   traefik:
-    image: traefik # The official Traefik docker image
+    image: traefik:1.7 # The official Traefik docker image
     command: --api --docker
     ports:
       - "8080:8080" # The Web UI (enabled by --api)
@@ -50,7 +50,7 @@ services:
     user: mysql
 
   pma:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:4.7
     container_name: phpmyadmin
     environment:
       - PMA_ARBITRARY=1
@@ -64,10 +64,7 @@ services:
       - 'traefik.port=80'
 
   node:
-    image: node:8
-    environment:
-      YARN_CACHE_FOLDER: '/home/node/.yarn-cache'
-    user: root
+    image: node:8.11.4-alpine
     volumes:
       - sylius:/var/www/html
     working_dir: /var/www/html
